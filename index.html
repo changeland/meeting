@@ -203,7 +203,7 @@
                 required
             />
             <div id="fileDisplay" class="text-center">
-                <p class="text-gray-500 font-medium">Drag & drop your file here or click to upload</p>
+                <p class="text-gray-500 font-medium">Σύρετε και αφήστε το αποδεικτικό εδώ ή κλικ για να το φορτώσετε</p>
             </div>
             </div>
         </div>
@@ -246,8 +246,8 @@
         `;
       } else {
         fileDisplay.innerHTML = `
-          <p class="text-gray-500 font-medium">Drag & drop your file here or click to upload</p>
-          <p class="text-sm text-gray-400">Accepted formats: .pdf, images</p>
+          <p class="text-gray-500 font-medium">Σύρετε και αφήστε το αποδεικτικό εδώ ή κλικ για να το φορτώσετε</p>
+          
         `;
       }
     });
@@ -270,7 +270,7 @@
             window.location.href = 'https://checkout.revolut.com/pay/cf7eb2fb-506d-45f3-b1cd-96e5e0ed635b';
           } else if (bankTransfer.checked && proofField.files.length > 0) {
             // Redirect with no delay after successful webhook for bank transfer
-            window.location.href = 'https://abhinavkm.github.io/thankyou-page/'; // Adjust to your desired URL
+            window.location.href = 'https://changeland.github.io/thankyou/'; // Adjust to your desired URL
           }
         } else {
           console.error('Webhook failed:', response.statusText);
