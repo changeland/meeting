@@ -125,8 +125,6 @@
             </div>
           </fieldset>  
 
-            
-
         <!--Ποσό σε ευρώ (αντιστοιχεί στο ποσό που γράφει η προσφορά που έχετε λάβει) -->
         <label class="block text-gray-700 font-medium">
             Ποσό σε ευρώ (αντιστοιχεί στο ποσό που γράφει η προσφορά που έχετε λάβει) <span class="text-red-500">*</span>
@@ -151,14 +149,24 @@
           </div>
         </fieldset>
 
-        <!-- Proof Upload Section -->
-        <div id="proofUpload" style="display: none;" class="mt-4">
-          <div class="bank-details" style="color: black;">
+        <!-- Payment Link Section -->
+        <div id="paymentLink" style="display: none;" class="mt-4">
+            <div class="bank-details" style="color: black;">
+                <h1 style="color: black; text-align: center;"><b>Πληρωμή με Κάρτα</b></h1>
+                <br>
+                <p style="text-align: center;">
+                    <a href="https://checkout.revolut.com/pay/cf7eb2fb-506d-45f3-b1cd-96e5e0ed635b" target="_blank" class="text-blue-500 underline">Κάντε κλικ εδώ για να πραγματοποιήσετε την πληρωμή με κάρτα</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Bank Details Section -->
+        <div id="bankDetails" style="display: none;" class="mt-4">
+            <div class="bank-details" style="color: black;">
                 <h1 style="color: black; text-align: center;"><b>Στοιχεία Τράπεζας</b></h1>
                 <br>
                 <table style="margin-left: 10px;">
                     <tbody>
-                        
                         <tr>
                             <td><p><strong>ΙΒΑΝ:</strong></p></td>
                             <td><p>GR65 0171 6040 0066 0415 1470 208</p></td>
@@ -173,15 +181,13 @@
                         <tr>
                             <td colspan="2"><hr></td>
                         </tr>
-                        
                         <tr>
                             <td><p><strong>Διεύθυνση:</strong></p></td>
-                            <td><p> Λ. Συγγρού 196, Καλλιθέα 17671, Αττική, Ελλάδα</p></td>
+                            <td><p>Λ. Συγγρού 196, Καλλιθέα 17671, Αττική, Ελλάδα</p></td>
                         </tr>
                         <tr>
                             <td colspan="2"><hr></td>
                         </tr>
-                        
                         <tr>
                             <td><p><strong>Αιτιολογία:</strong></p></td>
                             <td><p>Επαγγελματικό / Εταιρικό ΑΦΜ, Ονοματεπώνυμο</p></td>
@@ -189,7 +195,10 @@
                     </tbody>
                 </table>
             </div>
-            <br>
+        </div>
+
+        <!-- Proof Upload Section -->
+        <div id="proofUpload" class="mt-4">
             <label class="block text-gray-700 font-medium">
             Φορτώστε αποδεικτικό <span class="text-red-500">*</span>
             </label>
@@ -224,16 +233,18 @@
     const proofUpload = document.getElementById('proofUpload');
     const cardPayment = document.getElementById('cardPayment');
     const bankTransfer = document.getElementById('bankTransfer');
+    const paymentLink = document.getElementById('paymentLink');
+    const bankDetails = document.getElementById('bankDetails');
     const proofField = document.getElementById('proof');
     const fileDisplay = document.getElementById('fileDisplay');
   
     form.addEventListener('change', function () {
-      if (bankTransfer.checked) {
-        proofUpload.style.display = 'block';
-        proofField.setAttribute('required', 'required');
-      } else {
-        proofUpload.style.display = 'none';
-        proofField.removeAttribute('required');
+      if (cardPayment.checked) {
+        paymentLink.style.display = 'block';
+        bankDetails.style.display = 'none';
+      } else if (bankTransfer.checked) {
+        paymentLink.style.display = 'none';
+        bankDetails.style.display = 'block';
       }
     });
   
@@ -247,7 +258,6 @@
       } else {
         fileDisplay.innerHTML = `
           <p class="text-gray-500 font-medium">Σύρετε και αφήστε το αποδεικτικό εδώ ή κλικ για να το φορτώσετε</p>
-          
         `;
       }
     });
@@ -265,13 +275,8 @@
         });
   
         if (response.ok) {
-          // Redirect based on the selected payment option
-          if (cardPayment.checked) {
-            window.location.href = 'https://checkout.revolut.com/pay/cf7eb2fb-506d-45f3-b1cd-96e5e0ed635b';
-          } else if (bankTransfer.checked && proofField.files.length > 0) {
-            // Redirect with no delay after successful webhook for bank transfer
-            window.location.href = 'https://changeland.github.io/thankyou/'; // Adjust to your desired URL
-          }
+          // Redirect to thank you page
+          window.location.href = 'https://changeland.github.io/thankyou/';
         } else {
           console.error('Webhook failed:', response.statusText);
         }
